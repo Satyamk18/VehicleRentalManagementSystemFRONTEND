@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+    integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+    integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- <div class="alert"></div> -->
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="Home.html" class="nav-link px-2 text-white">VeRent</a></li>
+              <li><a href="ShowVehicles.html" class="nav-link px-2 text-secondary">Vehicles</a></li>
+              <li><a href="About.html" class="nav-link px-2 text-secondary">About</a></li>
+
+            </ul>
+    
+            <div class="text-end">
+              <button type="button" class="btn btn-link user-text" onclick=taketohome() style="text-decoration:none;color:whitesmoke">Hello, User</button>
+              <button type="button" class="btn btn-danger logout-btn">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <br>
+      <br>
+
+    <h3 id="welcomeheader" style="text-align:center;font-family: Arial, Helvetica, sans-serif;"></h3>
+    <br>
+    <br>
+
+    <div class="d-flex justify-content-around" style="display:flex">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Your account transactions</h5>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+          <p class="card-text">Here you can see your previous rental details as well as you can return your current rentals</p>
+          <button type="button" class="btn btn-success" onclick=rentalclick()>Go to your rentals</button>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">List your vehicle on our website</h5>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+          <p class="card-text">Here you can list your vehicle on our website with all the details so that other customers can rent your vehicle</p>
+          <button type="button" class="btn btn-success" onclick = addyourvehicles()>Add Your Vehicle</button>
+          <!-- <a href="#" class="card-link" onclick=rentalclick()>Go to your rentals</a> -->
+          <!-- <a href="#" class="card-link">Another link</a> -->
+        </div>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Rent your favourite vehicle</h5>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+          <p class="card-text">Here you can choose among the available vehicles and rent it according to your convenience </p>
+          <button type="button" class="btn btn-success" onclick= gotovehicles() >Show Vehicles</button>
+        </div>
+      </div>
+    </div>
+
+
+<!-- <div>
+<br>
+<button type="button" class="btn btn-primary btn-lg btn-block" onclick=rentalclick() >Your Rentals</button>
+<br>
+<br>
+<button type="button" class="btn btn-primary btn-lg btn-block" style="color:green"><a href="AddVehicle.html" style="color:white;text-decoration:none" >Add Your Vehicle!</a></button>
+<br>
+<br>
+<button type="button" class="btn btn-primary btn-lg btn-block" style="color:green"><a href="ShowVehicles.html" style="color:white;text-decoration:none" >Choose vehicle for Rent!</a></button>
+</div> -->
+<script>
+   $(document).ready(function(){
+        checkloggedin();
+        let userid = JSON.parse(localStorage.getItem("Username"));
+        document.getElementById("welcomeheader").innerHTML = "Welcome , "+ userid;
+   });
+   function checkloggedin(){
+            if(localStorage.getItem('Username') == undefined){
+                window.location.href = 'Login.html';
+                return;
+            }
+            let username = JSON.parse(localStorage.getItem("Username"));
+            let userid = JSON.parse(localStorage.getItem("Username"));
+            $(".user-text").html(`Hello, ${username}`);
+    }
+    function taketohome(){
+             window.location.href = "Home.html";
+   }
+   function addyourvehicles(){
+          window.location.href = "AddVehicle.html";
+   }
+   function gotovehicles(){
+          window.location.href = "ShowVehicles.html";
+   }
+   function rentalclick(){
+       let uid = JSON.parse(localStorage.getItem("Userid"));
+       window.location.href = `Transactions.html?id=${uid}`
+   }
+   $('.logout-btn').click(function(){
+      localStorage.clear();
+      window.location.href = 'Login.html';
+   });
+</script>
+</body>
+</html>
+

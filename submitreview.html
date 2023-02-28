@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Review</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+    integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+    integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <!-- <div class="alert"></div> -->
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="Home.html" class="nav-link px-2 text-white">VeRent</a></li>
+              <li><a href="ShowVehicles.html" class="nav-link px-2 text-secondary">Vehicles</a></li>
+              <li><a href="About.html" class="nav-link px-2 text-secondary">About</a></li>
+
+            </ul>
+    
+            <div class="text-end">
+              <button type="button" class="btn btn-link user-text" onclick =taketohome() style="text-decoration:none;color:whitesmoke">Hello, User</button>
+              <button type="button" class="btn btn-danger logout-btn">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+    <h2 style="text-align:center">Give us your valuble feedback</h2>
+    <div class="form-group">
+        <label for="vehicleId"><b>Vehicle Id :</b></label>
+        <input type="number" class="form-control" id="vehicleid" />
+    </div>
+    <div class="form-group">
+        <label for="review"><b>Review :</b></label>
+        <input type="text" class="form-control" id="review" />
+    </div>
+    <br>
+    <br>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-success" id="AddButton">Give Review</button>
+    </div>
+    <script>
+        $('document').ready(function(){
+            checkloggedin();
+        });
+        function taketohome(){
+             window.location.href = "Home.html";
+        }
+        function checkloggedin(){
+            if(localStorage.getItem('Username') == undefined){
+                window.location.href = 'Login.html';
+                return;
+            }
+            let username = JSON.parse(localStorage.getItem("Username"));
+            let userid = JSON.parse(localStorage.getItem("Username"));
+            $(".user-text").html(`Hello, ${username}`);
+        }
+        $('.logout-btn').click(function(){
+            localStorage.clear();
+            window.location.href = 'Login.html';
+        });
+        var uid = JSON.parse(localStorage.getItem("Userid"));
+        // let params = (new URL(document.location)).searchParams;
+        // var tid = params.get("id");
+        var vid = $("#vehicleid").val();
+        $("#AddButton").click(function (e) {
+        $.ajax({
+            url: "https://localhost:5001/api/Review/submitReview",
+            headers:{
+            'Content-Type':'application/json;charset=UTF-8',
+            'Access-Control-Allow-Origin':'*',
+            'Access-Control-Allow-Method':'*'},
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                userid: JSON.parse(localStorage.getItem("Userid")),
+                vehicleId: $("#vehicleid").val(),
+                review1: $("#review").val(),
+            }),
+            success: function (result, status, xhr){
+                console.log(result);
+                console.log("Congratulations");
+                window.location.href = "Home.html";
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr)
+            }
+        });
+      });
+    </script>
+</body>
+</html>
